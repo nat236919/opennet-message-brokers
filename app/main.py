@@ -42,16 +42,23 @@ class MessageBroker:
         """
         Start receiving messages from the queue.
         """
-        self.channel.basic_consume(
-            queue=self.queue_name,
-            on_message_callback=lambda ch, method, properties, body: print(
-                f'Received {body.decode()}'),
-            auto_ack=True
-        )
+        try:
+            self.channel.basic_consume(
+                queue=self.queue_name,
+                on_message_callback=lambda ch, method, properties, body: print(
+                    f'Received {body.decode()}'),
+                auto_ack=True
+            )
 
-        print('Waiting for messages. To exit press CTRL+C')
+            print('Waiting for messages. To exit press CTRL+C')
 
-        self.channel.start_consuming()
+            self.channel.start_consuming()
+
+        except KeyboardInterrupt:
+            print('Interrupted by user')
+
+        finally:
+            self.close_connection()
 
     def close_connection(self) -> None:
         """
