@@ -33,7 +33,7 @@ cd app
 python main send
 ```
 
-### Receive a message to queue
+### Receive a message from queue
 
 ```bash
 cd app
